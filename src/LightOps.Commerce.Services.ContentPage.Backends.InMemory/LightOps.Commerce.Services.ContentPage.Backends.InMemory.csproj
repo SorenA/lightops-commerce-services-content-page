@@ -11,4 +11,8 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LightOps.Commerce.Services.ContentPage\LightOps.Commerce.Services.ContentPage.csproj" />
+  </ItemGroup>
+
 </Project>
