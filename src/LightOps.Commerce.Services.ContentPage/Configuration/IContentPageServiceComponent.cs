@@ -12,6 +12,10 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
         IContentPageServiceComponent OverrideContentPageService<T>() where T : IContentPageService;
         #endregion Services
 
+        #region Mappers
+        IContentPageServiceComponent OverrideProtoContentPageMapperV1<T>() where T : IMapper<IContentPage, Proto.Services.ContentPage.V1.ProtoContentPage>;
+        #endregion Mappers
+
         #region Query Handlers
         IContentPageServiceComponent OverrideCheckContentPageHealthQueryHandler<T>() where T : ICheckContentPageHealthQueryHandler;
         IContentPageServiceComponent OverrideFetchContentPagesByParentIdQueryHandler<T>() where T : IFetchContentPagesByParentIdQueryHandler;

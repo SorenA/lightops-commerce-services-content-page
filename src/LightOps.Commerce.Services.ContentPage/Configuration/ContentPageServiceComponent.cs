@@ -4,6 +4,7 @@ using LightOps.Commerce.Services.ContentPage.Api.Models;
 using LightOps.Commerce.Services.ContentPage.Api.Queries;
 using LightOps.Commerce.Services.ContentPage.Api.QueryHandlers;
 using LightOps.Commerce.Services.ContentPage.Api.Services;
+using LightOps.Commerce.Services.ContentPage.Domain.Mappers.V1;
 using LightOps.Commerce.Services.ContentPage.Domain.Services;
 using LightOps.CQRS.Api.Queries;
 using LightOps.DependencyInjection.Api.Configuration;
@@ -53,6 +54,25 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
             return this;
         }
         #endregion Services
+
+        #region Mappers
+        internal enum Mappers
+        {
+            OverrideProtoContentPageMapperV1,
+        }
+
+        private readonly Dictionary<Mappers, ServiceRegistration> _mappers = new Dictionary<Mappers, ServiceRegistration>
+        {
+            [Mappers.OverrideProtoContentPageMapperV1] = ServiceRegistration
+                .Scoped<IMapper<IContentPage, Proto.Services.ContentPage.V1.ProtoContentPage>, ProtoContentPageMapper>(),
+        };
+
+        public IContentPageServiceComponent OverrideProtoContentPageMapperV1<T>() where T : IMapper<IContentPage, Proto.Services.ContentPage.V1.ProtoContentPage>
+        {
+            _mappers[Mappers.OverrideProtoContentPageMapperV1].ImplementationType = typeof(T);
+            return this;
+        }
+        #endregion Mappers
 
         #region Query Handlers
         internal enum QueryHandlers
