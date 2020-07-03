@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using LightOps.Commerce.Proto.Services.ContentPage.V1;
+﻿using LightOps.Commerce.Proto.Services.ContentPage.V1;
 using LightOps.Commerce.Services.ContentPage.Api.Models;
 using LightOps.Mapping.Api.Mappers;
-using LightOps.Mapping.Api.Services;
 
 // ReSharper disable UseObjectOrCollectionInitializer
 
@@ -10,13 +8,6 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Mappers.V1
 {
     public class ProtoContentPageMapper : IMapper<IContentPage, ProtoContentPage>
     {
-        private readonly IMappingService _mappingService;
-
-        public ProtoContentPageMapper(IMappingService mappingService)
-        {
-            _mappingService = mappingService;
-        }
-
         public ProtoContentPage Map(IContentPage source)
         {
             var dest = new ProtoContentPage();
