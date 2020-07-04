@@ -36,8 +36,8 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
 
         private readonly Dictionary<Services, ServiceRegistration> _services = new Dictionary<Services, ServiceRegistration>
         {
-            [Services.HealthService] = ServiceRegistration.Scoped<IHealthService, HealthService>(),
-            [Services.ContentPageService] = ServiceRegistration.Scoped<IContentPageService, ContentPageService>(),
+            [Services.HealthService] = ServiceRegistration.Transient<IHealthService, HealthService>(),
+            [Services.ContentPageService] = ServiceRegistration.Transient<IContentPageService, ContentPageService>(),
         };
 
         public IContentPageServiceComponent OverrideHealthService<T>()
@@ -58,18 +58,18 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
         #region Mappers
         internal enum Mappers
         {
-            OverrideProtoContentPageMapperV1,
+            ProtoContentPageMapperV1,
         }
 
         private readonly Dictionary<Mappers, ServiceRegistration> _mappers = new Dictionary<Mappers, ServiceRegistration>
         {
-            [Mappers.OverrideProtoContentPageMapperV1] = ServiceRegistration
-                .Scoped<IMapper<IContentPage, Proto.Services.ContentPage.V1.ProtoContentPage>, ProtoContentPageMapper>(),
+            [Mappers.ProtoContentPageMapperV1] = ServiceRegistration
+                .Transient<IMapper<IContentPage, Proto.Services.ContentPage.V1.ProtoContentPage>, ProtoContentPageMapper>(),
         };
 
         public IContentPageServiceComponent OverrideProtoContentPageMapperV1<T>() where T : IMapper<IContentPage, Proto.Services.ContentPage.V1.ProtoContentPage>
         {
-            _mappers[Mappers.OverrideProtoContentPageMapperV1].ImplementationType = typeof(T);
+            _mappers[Mappers.ProtoContentPageMapperV1].ImplementationType = typeof(T);
             return this;
         }
         #endregion Mappers
@@ -87,12 +87,12 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
 
         private readonly Dictionary<QueryHandlers, ServiceRegistration> _queryHandlers = new Dictionary<QueryHandlers, ServiceRegistration>
         {
-            [QueryHandlers.CheckContentPageHealthQueryHandler] = ServiceRegistration.Scoped<IQueryHandler<CheckContentPageHealthQuery, HealthStatus>>(),
-            [QueryHandlers.FetchContentPagesByParentIdQueryHandler] = ServiceRegistration.Scoped<IQueryHandler<FetchContentPagesByParentIdQuery, IList<IContentPage>>>(),
-            [QueryHandlers.FetchContentPagesByRootQueryHandler] = ServiceRegistration.Scoped<IQueryHandler<FetchContentPagesByRootQuery, IList<IContentPage>>>(),
-            [QueryHandlers.FetchContentPagesBySearchQueryHandler] = ServiceRegistration.Scoped<IQueryHandler<FetchContentPagesBySearchQuery, IList<IContentPage>>>(),
-            [QueryHandlers.FetchContentPageByHandleQueryHandler] = ServiceRegistration.Scoped<IQueryHandler<FetchContentPageByHandleQuery, IContentPage>>(),
-            [QueryHandlers.FetchContentPageByIdQueryHandler] = ServiceRegistration.Scoped<IQueryHandler<FetchContentPageByIdQuery, IContentPage>>(),
+            [QueryHandlers.CheckContentPageHealthQueryHandler] = ServiceRegistration.Transient<IQueryHandler<CheckContentPageHealthQuery, HealthStatus>>(),
+            [QueryHandlers.FetchContentPagesByParentIdQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesByParentIdQuery, IList<IContentPage>>>(),
+            [QueryHandlers.FetchContentPagesByRootQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesByRootQuery, IList<IContentPage>>>(),
+            [QueryHandlers.FetchContentPagesBySearchQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesBySearchQuery, IList<IContentPage>>>(),
+            [QueryHandlers.FetchContentPageByHandleQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPageByHandleQuery, IContentPage>>(),
+            [QueryHandlers.FetchContentPageByIdQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPageByIdQuery, IContentPage>>(),
         };
 
         public IContentPageServiceComponent OverrideCheckContentPageHealthQueryHandler<T>() where T : ICheckContentPageHealthQueryHandler
