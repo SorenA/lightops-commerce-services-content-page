@@ -10,8 +10,8 @@ Provides gRPC services for integrations into other services.
 
 | Branch | CI |
 | --- | --- |
-| master | ![Build Status](https://dev.azure.com/sorendev/LightOps%20Commerce/_apis/build/status/SorenA.lightops-commerce-services-content-page?branchName=master) |
-| develop | ![Build Status](https://dev.azure.com/sorendev/LightOps%20Commerce/_apis/build/status/SorenA.lightops-commerce-services-content-page?branchName=develop) |
+| master | ![Build Status](https://dev.azure.com/sorendev/LightOps%20Commerce/_apis/build/status/LightOps.Commerce.Services.ContentPage?branchName=master) |
+| develop | ![Build Status](https://dev.azure.com/sorendev/LightOps%20Commerce/_apis/build/status/LightOps.Commerce.Services.ContentPage?branchName=develop) |
 
 ## gRPC services
 
