@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2020-07-16
+
+### Added
+
+- Service endpoint for fetching multiple content pages by ids or handles
+- Queries and query handlers for fetching multiple content pages by ids or handles
+
 ## [0.2.0] - 2020-07-04
 
 ### Changed
@@ -31,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Health service using CQRS for status checks
 - In-memory backend providing default query handlers
 
-[unreleased]: https://github.com/SorenA/lightops-commerce-services-content-page/compare/0.2.0...develop
+[unreleased]: https://github.com/SorenA/lightops-commerce-services-content-page/compare/0.2.1...develop
+[0.2.1]: https://github.com/SorenA/lightops-commerce-services-content-page/tree/0.2.1
 [0.2.0]: https://github.com/SorenA/lightops-commerce-services-content-page/tree/0.2.0
 [0.1.0]: https://github.com/SorenA/lightops-commerce-services-content-page/tree/0.1.0
