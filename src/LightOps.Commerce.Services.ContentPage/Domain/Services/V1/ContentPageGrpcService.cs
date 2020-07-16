@@ -49,6 +49,28 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Services.V1
             return result;
         }
 
+        public override async Task<GetContentPagesByIdResponse> GetContentPagesById(GetContentPagesByIdRequest request, ServerCallContext context)
+        {
+            var entities = await _contentPageService.GetByIdAsync(request.Ids);
+            var protoEntities = _mappingService.Map<IContentPage, ProtoContentPage>(entities);
+
+            var result = new GetContentPagesByIdResponse();
+            result.ContentPages.AddRange(protoEntities);
+
+            return result;
+        }
+
+        public override async Task<GetContentPagesByHandleResponse> GetContentPagesByHandle(GetContentPagesByHandleRequest request, ServerCallContext context)
+        {
+            var entities = await _contentPageService.GetByHandleAsync(request.Handles);
+            var protoEntities = _mappingService.Map<IContentPage, ProtoContentPage>(entities);
+
+            var result = new GetContentPagesByHandleResponse();
+            result.ContentPages.AddRange(protoEntities);
+
+            return result;
+        }
+
         public override async Task<ProtoGetContentPagesByRootResponse> GetContentPagesByRoot(ProtoGetContentPagesByRootRequest request, ServerCallContext context)
         {
             var entities = await _contentPageService.GetByRootAsync();
