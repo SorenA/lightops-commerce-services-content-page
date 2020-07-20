@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Service endpoint for fetching multiple content pages by ids or handles pluralized
+- Queries and query handlers for fetching multiple content pages by ids or handles pluralized
+
 ## [0.2.1] - 2020-07-16
 
 ### Added

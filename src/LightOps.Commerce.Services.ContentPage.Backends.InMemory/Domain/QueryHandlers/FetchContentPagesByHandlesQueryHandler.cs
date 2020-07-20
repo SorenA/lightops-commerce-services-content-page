@@ -8,20 +8,20 @@ using LightOps.Commerce.Services.ContentPage.Backends.InMemory.Api.Providers;
 
 namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.QueryHandlers
 {
-    public class FetchContentPagesByIdQueryHandler : IFetchContentPagesByIdQueryHandler
+    public class FetchContentPagesByHandlesQueryHandler : IFetchContentPagesByHandlesQueryHandler
     {
         private readonly IInMemoryContentPageProvider _inMemoryContentPageProvider;
 
-        public FetchContentPagesByIdQueryHandler(IInMemoryContentPageProvider inMemoryContentPageProvider)
+        public FetchContentPagesByHandlesQueryHandler(IInMemoryContentPageProvider inMemoryContentPageProvider)
         {
             _inMemoryContentPageProvider = inMemoryContentPageProvider;
         }
-        
-        public Task<IList<IContentPage>> HandleAsync(FetchContentPagesByIdQuery query)
+
+        public Task<IList<IContentPage>> HandleAsync(FetchContentPagesByHandlesQuery query)
         {
             var contentPages = _inMemoryContentPageProvider
                 .ContentPages
-                .Where(c => query.Ids.Contains(c.Id))
+                .Where(c => query.Handles.Contains(c.Handle))
                 .ToList();
 
             return Task.FromResult<IList<IContentPage>>(contentPages);

@@ -34,7 +34,7 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Services
 
         public Task<IList<IContentPage>> GetByIdAsync(IList<string> ids)
         {
-            return _queryDispatcher.DispatchAsync<FetchContentPagesByIdQuery, IList<IContentPage>>(new FetchContentPagesByIdQuery
+            return _queryDispatcher.DispatchAsync<FetchContentPagesByIdsQuery, IList<IContentPage>>(new FetchContentPagesByIdsQuery
             {
                 Ids = ids,
             });
@@ -42,7 +42,7 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Services
 
         public Task<IList<IContentPage>> GetByHandleAsync(IList<string> handles)
         {
-            return _queryDispatcher.DispatchAsync<FetchContentPagesByHandleQuery, IList<IContentPage>>(new FetchContentPagesByHandleQuery
+            return _queryDispatcher.DispatchAsync<FetchContentPagesByHandlesQuery, IList<IContentPage>>(new FetchContentPagesByHandlesQuery
             {
                 Handles = handles,
             });

@@ -5,7 +5,7 @@ using LightOps.CQRS.Api.Queries;
 
 namespace LightOps.Commerce.Services.ContentPage.Api.QueryHandlers
 {
-    public interface IFetchContentPagesByIdQueryHandler : IQueryHandler<FetchContentPagesByIdQuery, IList<IContentPage>>
+    public interface IFetchContentPagesByIdsQueryHandler : IQueryHandler<FetchContentPagesByIdsQuery, IList<IContentPage>>
     {
 
     }
