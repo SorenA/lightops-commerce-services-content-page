@@ -49,34 +49,23 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Services.V1
             return result;
         }
 
-        public override async Task<GetContentPagesByIdResponse> GetContentPagesById(GetContentPagesByIdRequest request, ServerCallContext context)
+        public override async Task<GetContentPagesByIdsResponse> GetContentPagesByIds(GetContentPagesByIdsRequest request, ServerCallContext context)
         {
             var entities = await _contentPageService.GetByIdAsync(request.Ids);
             var protoEntities = _mappingService.Map<IContentPage, ProtoContentPage>(entities);
 
-            var result = new GetContentPagesByIdResponse();
+            var result = new GetContentPagesByIdsResponse();
             result.ContentPages.AddRange(protoEntities);
 
             return result;
         }
 
-        public override async Task<GetContentPagesByHandleResponse> GetContentPagesByHandle(GetContentPagesByHandleRequest request, ServerCallContext context)
+        public override async Task<GetContentPagesByHandlesResponse> GetContentPagesByHandles(GetContentPagesByHandlesRequest request, ServerCallContext context)
         {
             var entities = await _contentPageService.GetByHandleAsync(request.Handles);
             var protoEntities = _mappingService.Map<IContentPage, ProtoContentPage>(entities);
 
-            var result = new GetContentPagesByHandleResponse();
-            result.ContentPages.AddRange(protoEntities);
-
-            return result;
-        }
-
-        public override async Task<ProtoGetContentPagesByRootResponse> GetContentPagesByRoot(ProtoGetContentPagesByRootRequest request, ServerCallContext context)
-        {
-            var entities = await _contentPageService.GetByRootAsync();
-            var protoEntities = _mappingService.Map<IContentPage, ProtoContentPage>(entities);
-
-            var result = new ProtoGetContentPagesByRootResponse();
+            var result = new GetContentPagesByHandlesResponse();
             result.ContentPages.AddRange(protoEntities);
 
             return result;
@@ -88,6 +77,28 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Services.V1
             var protoEntities = _mappingService.Map<IContentPage, ProtoContentPage>(entities);
 
             var result = new ProtoGetContentPagesByParentIdResponse();
+            result.ContentPages.AddRange(protoEntities);
+
+            return result;
+        }
+
+        public override async Task<ProtoGetContentPagesByParentIdsResponse> GetContentPagesByParentIds(ProtoGetContentPagesByParentIdsRequest request, ServerCallContext context)
+        {
+            var entities = await _contentPageService.GetByParentIdAsync(request.ParentIds);
+            var protoEntities = _mappingService.Map<IContentPage, ProtoContentPage>(entities);
+
+            var result = new ProtoGetContentPagesByParentIdsResponse();
+            result.ContentPages.AddRange(protoEntities);
+
+            return result;
+        }
+
+        public override async Task<ProtoGetContentPagesByRootResponse> GetContentPagesByRoot(ProtoGetContentPagesByRootRequest request, ServerCallContext context)
+        {
+            var entities = await _contentPageService.GetByRootAsync();
+            var protoEntities = _mappingService.Map<IContentPage, ProtoContentPage>(entities);
+
+            var result = new ProtoGetContentPagesByRootResponse();
             result.ContentPages.AddRange(protoEntities);
 
             return result;
