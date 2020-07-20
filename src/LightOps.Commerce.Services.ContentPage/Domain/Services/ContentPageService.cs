@@ -56,6 +56,14 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Services
             });
         }
 
+        public Task<IList<IContentPage>> GetByParentIdAsync(IList<string> parentIds)
+        {
+            return _queryDispatcher.DispatchAsync<FetchContentPagesByParentIdsQuery, IList<IContentPage>>(new FetchContentPagesByParentIdsQuery
+            {
+                ParentIds = parentIds,
+            });
+        }
+
         public Task<IList<IContentPage>> GetByRootAsync()
         {
             return _queryDispatcher.DispatchAsync<FetchContentPagesByRootQuery, IList<IContentPage>>(new FetchContentPagesByRootQuery());

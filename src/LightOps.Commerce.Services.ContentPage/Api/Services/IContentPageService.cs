@@ -13,6 +13,7 @@ namespace LightOps.Commerce.Services.ContentPage.Api.Services
         Task<IList<IContentPage>> GetByHandleAsync(IList<string> handles);
 
         Task<IList<IContentPage>> GetByParentIdAsync(string parentId);
+        Task<IList<IContentPage>> GetByParentIdAsync(IList<string> parentIds);
 
         Task<IList<IContentPage>> GetByRootAsync();
         Task<IList<IContentPage>> GetBySearchAsync(string searchTerm);

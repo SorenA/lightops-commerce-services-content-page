@@ -26,6 +26,7 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
         IContentPageServiceComponent OverrideFetchContentPagesByHandlesQueryHandler<T>() where T : IFetchContentPagesByHandlesQueryHandler;
 
         IContentPageServiceComponent OverrideFetchContentPagesByParentIdQueryHandler<T>() where T : IFetchContentPagesByParentIdQueryHandler;
+        IContentPageServiceComponent OverrideFetchContentPagesByParentIdsQueryHandler<T>() where T : IFetchContentPagesByParentIdsQueryHandler;
 
         IContentPageServiceComponent OverrideFetchContentPagesByRootQueryHandler<T>() where T : IFetchContentPagesByRootQueryHandler;
         IContentPageServiceComponent OverrideFetchContentPagesBySearchQueryHandler<T>() where T : IFetchContentPagesBySearchQueryHandler;
