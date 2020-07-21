@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2020-07-21
+
+### Fixed
+
+- Null exeption in in-memory query handler for fetching by parent ids
+
 ## [0.3.0] - 2020-07-21
 
 ### Added
@@ -49,7 +55,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Health service using CQRS for status checks
 - In-memory backend providing default query handlers
 
-[unreleased]: https://github.com/SorenA/lightops-commerce-services-content-page/compare/0.3.0...develop
+[unreleased]: https://github.com/SorenA/lightops-commerce-services-content-page/compare/0.3.1...develop
+[0.3.1]: https://github.com/SorenA/lightops-commerce-services-content-page/tree/0.3.1
 [0.3.0]: https://github.com/SorenA/lightops-commerce-services-content-page/tree/0.3.0
 [0.2.1]: https://github.com/SorenA/lightops-commerce-services-content-page/tree/0.2.1
 [0.2.0]: https://github.com/SorenA/lightops-commerce-services-content-page/tree/0.2.0
