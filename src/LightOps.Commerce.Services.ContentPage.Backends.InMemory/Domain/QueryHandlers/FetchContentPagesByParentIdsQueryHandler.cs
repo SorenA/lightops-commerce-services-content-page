@@ -21,7 +21,9 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.QueryH
         {
             var contentPages = _inMemoryContentPageProvider
                 .ContentPages
-                .Where(c => query.ParentIds.Contains(c.ParentContentPageId))
+                .Where(c => 
+                    !string.IsNullOrEmpty(c.ParentContentPageId)
+                    && query.ParentIds.Contains(c.ParentContentPageId))
                 .ToList();
 
             return Task.FromResult<IList<IContentPage>>(contentPages);
