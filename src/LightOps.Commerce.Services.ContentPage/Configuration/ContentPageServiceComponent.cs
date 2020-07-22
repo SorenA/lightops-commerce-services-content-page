@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LightOps.Commerce.Proto.Types;
 using LightOps.Commerce.Services.ContentPage.Api.Models;
 using LightOps.Commerce.Services.ContentPage.Api.Queries;
 using LightOps.Commerce.Services.ContentPage.Api.QueryHandlers;
+using LightOps.Commerce.Services.ContentPage.Api.QueryResults;
 using LightOps.Commerce.Services.ContentPage.Api.Services;
-using LightOps.Commerce.Services.ContentPage.Domain.Mappers.V1;
+using LightOps.Commerce.Services.ContentPage.Domain.Mappers;
 using LightOps.Commerce.Services.ContentPage.Domain.Services;
 using LightOps.CQRS.Api.Queries;
 using LightOps.DependencyInjection.Api.Configuration;
@@ -58,18 +60,17 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
         #region Mappers
         internal enum Mappers
         {
-            ProtoContentPageMapperV1,
+            ContentPageProtoMapper,
         }
 
         private readonly Dictionary<Mappers, ServiceRegistration> _mappers = new Dictionary<Mappers, ServiceRegistration>
         {
-            [Mappers.ProtoContentPageMapperV1] = ServiceRegistration
-                .Transient<IMapper<IContentPage, Proto.Services.ContentPage.V1.ProtoContentPage>, ProtoContentPageMapper>(),
+            [Mappers.ContentPageProtoMapper] = ServiceRegistration.Transient<IMapper<IContentPage, ContentPageProto>, ContentPageProtoMapper>(),
         };
 
-        public IContentPageServiceComponent OverrideProtoContentPageMapperV1<T>() where T : IMapper<IContentPage, Proto.Services.ContentPage.V1.ProtoContentPage>
+        public IContentPageServiceComponent OverrideContentPageProtoMapper<T>() where T : IMapper<IContentPage, ContentPageProto>
         {
-            _mappers[Mappers.ProtoContentPageMapperV1].ImplementationType = typeof(T);
+            _mappers[Mappers.ContentPageProtoMapper].ImplementationType = typeof(T);
             return this;
         }
         #endregion Mappers
@@ -79,16 +80,8 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
         {
             CheckContentPageHealthQueryHandler,
 
-            FetchContentPageByIdQueryHandler,
-            FetchContentPagesByIdsQueryHandler,
-
-            FetchContentPageByHandleQueryHandler,
             FetchContentPagesByHandlesQueryHandler,
-
-            FetchContentPagesByParentIdQueryHandler,
-            FetchContentPagesByParentIdsQueryHandler,
-
-            FetchContentPagesByRootQueryHandler,
+            FetchContentPagesByIdsQueryHandler,
             FetchContentPagesBySearchQueryHandler,
         }
 
@@ -96,40 +89,14 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
         {
             [QueryHandlers.CheckContentPageHealthQueryHandler] = ServiceRegistration.Transient<IQueryHandler<CheckContentPageHealthQuery, HealthStatus>>(),
 
-            [QueryHandlers.FetchContentPageByIdQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPageByIdQuery, IContentPage>>(),
-            [QueryHandlers.FetchContentPagesByIdsQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesByIdsQuery, IList<IContentPage>>>(),
-
-            [QueryHandlers.FetchContentPageByHandleQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPageByHandleQuery, IContentPage>>(),
             [QueryHandlers.FetchContentPagesByHandlesQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesByHandlesQuery, IList<IContentPage>>>(),
-
-            [QueryHandlers.FetchContentPagesByParentIdQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesByParentIdQuery, IList<IContentPage>>>(),
-            [QueryHandlers.FetchContentPagesByParentIdsQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesByParentIdsQuery, IList<IContentPage>>>(),
-
-            [QueryHandlers.FetchContentPagesByRootQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesByRootQuery, IList<IContentPage>>>(),
-            [QueryHandlers.FetchContentPagesBySearchQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesBySearchQuery, IList<IContentPage>>>(),
+            [QueryHandlers.FetchContentPagesByIdsQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesByIdsQuery, IList<IContentPage>>>(),
+            [QueryHandlers.FetchContentPagesBySearchQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesBySearchQuery, SearchResult<IContentPage>>>(),
         };
 
         public IContentPageServiceComponent OverrideCheckContentPageHealthQueryHandler<T>() where T : ICheckContentPageHealthQueryHandler
         {
             _queryHandlers[QueryHandlers.CheckContentPageHealthQueryHandler].ImplementationType = typeof(T);
-            return this;
-        }
-
-        public IContentPageServiceComponent OverrideFetchContentPageByIdQueryHandler<T>() where T : IFetchContentPageByIdQueryHandler
-        {
-            _queryHandlers[QueryHandlers.FetchContentPageByIdQueryHandler].ImplementationType = typeof(T);
-            return this;
-        }
-
-        public IContentPageServiceComponent OverrideFetchContentPagesByIdsQueryHandler<T>() where T : IFetchContentPagesByIdsQueryHandler
-        {
-            _queryHandlers[QueryHandlers.FetchContentPagesByIdsQueryHandler].ImplementationType = typeof(T);
-            return this;
-        }
-
-        public IContentPageServiceComponent OverrideFetchContentPageByHandleQueryHandler<T>() where T : IFetchContentPageByHandleQueryHandler
-        {
-            _queryHandlers[QueryHandlers.FetchContentPageByHandleQueryHandler].ImplementationType = typeof(T);
             return this;
         }
 
@@ -139,21 +106,9 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
             return this;
         }
 
-        public IContentPageServiceComponent OverrideFetchContentPagesByParentIdQueryHandler<T>() where T : IFetchContentPagesByParentIdQueryHandler
+        public IContentPageServiceComponent OverrideFetchContentPagesByIdsQueryHandler<T>() where T : IFetchContentPagesByIdsQueryHandler
         {
-            _queryHandlers[QueryHandlers.FetchContentPagesByParentIdQueryHandler].ImplementationType = typeof(T);
-            return this;
-        }
-
-        public IContentPageServiceComponent OverrideFetchContentPagesByParentIdsQueryHandler<T>() where T : IFetchContentPagesByParentIdsQueryHandler
-        {
-            _queryHandlers[QueryHandlers.FetchContentPagesByParentIdsQueryHandler].ImplementationType = typeof(T);
-            return this;
-        }
-
-        public IContentPageServiceComponent OverrideFetchContentPagesByRootQueryHandler<T>() where T : IFetchContentPagesByRootQueryHandler
-        {
-            _queryHandlers[QueryHandlers.FetchContentPagesByRootQueryHandler].ImplementationType = typeof(T);
+            _queryHandlers[QueryHandlers.FetchContentPagesByIdsQueryHandler].ImplementationType = typeof(T);
             return this;
         }
 

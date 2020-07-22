@@ -1,14 +1,14 @@
 ﻿using System.Threading.Tasks;
 using Grpc.Core;
-using LightOps.Commerce.Proto.Services.ContentPage.V1;
+using LightOps.Commerce.Proto.Services;
 using LightOps.Commerce.Services.ContentPage.Api.Models;
 using LightOps.Commerce.Services.ContentPage.Api.Services;
 using LightOps.Mapping.Api.Services;
 using Microsoft.Extensions.Logging;
 
-namespace LightOps.Commerce.Services.ContentPage.Domain.Services.V1
+namespace LightOps.Commerce.Services.ContentPage.Domain.Services
 {
-    public class ContentPageGrpcService : ProtoContentPageService.ProtoContentPageServiceBase
+    public class ContentPageGrpcService : ContentPageProtoService.ContentPageProtoServiceBase
     {
         private readonly ILogger<ContentPageGrpcService> _logger;
         private readonly IContentPageService _contentPageService;

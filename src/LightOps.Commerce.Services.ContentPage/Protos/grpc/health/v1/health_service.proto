@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package grpc.health.v1;
 
-option csharp_namespace = "LightOps.Commerce.Proto.Services.Health.V1";
+option csharp_namespace = "LightOps.Commerce.Proto.Grpc.Health";
 
 message HealthCheckRequest {
   string service = 1;

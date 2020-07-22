@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Grpc.Core;
-using LightOps.Commerce.Proto.Services.Health.V1;
+using LightOps.Commerce.Proto.Grpc.Health;
 using LightOps.Commerce.Services.ContentPage.Api.Services;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 
-namespace LightOps.Commerce.Services.ContentPage.Domain.Services.V1
+namespace LightOps.Commerce.Services.ContentPage.Domain.Services
 {
     public class HealthGrpcService : Health.HealthBase
     {

@@ -1,4 +1,5 @@
-﻿using LightOps.Commerce.Services.ContentPage.Api.Models;
+﻿using LightOps.Commerce.Proto.Types;
+using LightOps.Commerce.Services.ContentPage.Api.Models;
 using LightOps.Commerce.Services.ContentPage.Api.QueryHandlers;
 using LightOps.Commerce.Services.ContentPage.Api.Services;
 using LightOps.Mapping.Api.Mappers;
@@ -13,22 +14,14 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
         #endregion Services
 
         #region Mappers
-        IContentPageServiceComponent OverrideProtoContentPageMapperV1<T>() where T : IMapper<IContentPage, Proto.Services.ContentPage.V1.ProtoContentPage>;
+        IContentPageServiceComponent OverrideContentPageProtoMapper<T>() where T : IMapper<IContentPage, ContentPageProto>;
         #endregion Mappers
 
         #region Query Handlers
         IContentPageServiceComponent OverrideCheckContentPageHealthQueryHandler<T>() where T : ICheckContentPageHealthQueryHandler;
 
-        IContentPageServiceComponent OverrideFetchContentPageByIdQueryHandler<T>() where T : IFetchContentPageByIdQueryHandler;
-        IContentPageServiceComponent OverrideFetchContentPagesByIdsQueryHandler<T>() where T : IFetchContentPagesByIdsQueryHandler;
-
-        IContentPageServiceComponent OverrideFetchContentPageByHandleQueryHandler<T>() where T : IFetchContentPageByHandleQueryHandler;
         IContentPageServiceComponent OverrideFetchContentPagesByHandlesQueryHandler<T>() where T : IFetchContentPagesByHandlesQueryHandler;
-
-        IContentPageServiceComponent OverrideFetchContentPagesByParentIdQueryHandler<T>() where T : IFetchContentPagesByParentIdQueryHandler;
-        IContentPageServiceComponent OverrideFetchContentPagesByParentIdsQueryHandler<T>() where T : IFetchContentPagesByParentIdsQueryHandler;
-
-        IContentPageServiceComponent OverrideFetchContentPagesByRootQueryHandler<T>() where T : IFetchContentPagesByRootQueryHandler;
+        IContentPageServiceComponent OverrideFetchContentPagesByIdsQueryHandler<T>() where T : IFetchContentPagesByIdsQueryHandler;
         IContentPageServiceComponent OverrideFetchContentPagesBySearchQueryHandler<T>() where T : IFetchContentPagesBySearchQueryHandler;
         #endregion Query Handlers
     }
