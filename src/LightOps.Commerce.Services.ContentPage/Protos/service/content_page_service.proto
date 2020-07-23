@@ -7,7 +7,7 @@ option csharp_namespace = "LightOps.Commerce.Proto.Services";
 import "google/protobuf/wrappers.proto";
 import "Protos/type/content_page.proto";
 
-enum ContentPageSortKey {
+enum ContentPageSortKeyProto {
   DEFAULT = 0;
   TITLE = 1;
   CREATED_AT = 2;
@@ -16,7 +16,7 @@ enum ContentPageSortKey {
 
 service ContentPageProtoService {
   // Gets a list of content pages by handle
-  rpc GetContentPageByHandles(GetContentPageByHandlesProtoRequest) returns (GetContentPageByHandlesProtoResponse) {}
+  rpc GetContentPagesByHandles(GetContentPagesByHandlesProtoRequest) returns (GetContentPagesByHandlesProtoResponse) {}
 
   // Gets a list of content pages by ids
   rpc GetContentPagesByIds(GetContentPagesByIdsProtoRequest) returns (GetContentPagesByIdsProtoResponse) {}
@@ -25,14 +25,14 @@ service ContentPageProtoService {
   rpc GetContentPagesBySearch(GetContentPagesBySearchProtoRequest) returns (GetContentPagesBySearchProtoResponse) {}
 }
 
-// GetContentPageByHandles request model
-message GetContentPageByHandlesProtoRequest {
+// GetContentPagesByHandles request model
+message GetContentPagesByHandlesProtoRequest {
   // The handles of the content page requested
   repeated string handles = 1;
 }
 
-// GetContentPageByHandles response model
-message GetContentPageByHandlesProtoResponse {
+// GetContentPagesByHandles response model
+message GetContentPagesByHandlesProtoResponse {
   // The content pages found, if any
   repeated lightops.type.ContentPageProto content_pages = 1;
 }
@@ -64,7 +64,7 @@ message GetContentPagesBySearchProtoRequest {
   google.protobuf.Int32Value page_size = 4;
 
   // Sort the underlying list by the given key
-  ContentPageSortKey sort_key = 5;
+  ContentPageSortKeyProto sort_key = 5;
 
   // Whether to reverse the order of the underlying list
   google.protobuf.BoolValue reverse = 6;

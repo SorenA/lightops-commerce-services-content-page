@@ -15,6 +15,7 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
 
         #region Mappers
         IContentPageServiceComponent OverrideContentPageProtoMapper<T>() where T : IMapper<IContentPage, ContentPageProto>;
+        IContentPageServiceComponent OverrideImageProtoMapper<T>() where T : IMapper<IImage, ImageProto>;
         #endregion Mappers
 
         #region Query Handlers

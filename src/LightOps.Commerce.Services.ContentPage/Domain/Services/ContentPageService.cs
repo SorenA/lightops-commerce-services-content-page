@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using LightOps.Commerce.Services.ContentPage.Api.Enums;
 using LightOps.Commerce.Services.ContentPage.Api.Models;
 using LightOps.Commerce.Services.ContentPage.Api.Queries;
+using LightOps.Commerce.Services.ContentPage.Api.QueryResults;
 using LightOps.Commerce.Services.ContentPage.Api.Services;
 using LightOps.CQRS.Api.Services;
 
@@ -16,11 +18,11 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Services
             _queryDispatcher = queryDispatcher;
         }
 
-        public Task<IContentPage> GetByIdAsync(string id)
+        public Task<IList<IContentPage>> GetByHandleAsync(IList<string> handles)
         {
-            return _queryDispatcher.DispatchAsync<FetchContentPageByIdQuery, IContentPage>(new FetchContentPageByIdQuery
+            return _queryDispatcher.DispatchAsync<FetchContentPagesByHandlesQuery, IList<IContentPage>>(new FetchContentPagesByHandlesQuery
             {
-                Id = id,
+                Handles = handles,
             });
         }
 
@@ -32,49 +34,23 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Services
             });
         }
 
-        public Task<IContentPage> GetByHandleAsync(string handle)
+        public Task<SearchResult<IContentPage>> GetBySearchAsync(string searchTerm,
+                                                                 string parentId = null,
+                                                                 string pageCursor = null,
+                                                                 int pageSize = 24,
+                                                                 ContentPageSortKey sortKey = ContentPageSortKey.Default,
+                                                                 bool reverse = false)
         {
-            return _queryDispatcher.DispatchAsync<FetchContentPageByHandleQuery, IContentPage>(new FetchContentPageByHandleQuery
-            {
-                Handle = handle,
-            });
-        }
-
-        public Task<IList<IContentPage>> GetByHandleAsync(IList<string> handles)
-        {
-            return _queryDispatcher.DispatchAsync<FetchContentPagesByHandlesQuery, IList<IContentPage>>(new FetchContentPagesByHandlesQuery
-            {
-                Handles = handles,
-            });
-        }
-
-        public Task<IList<IContentPage>> GetByParentIdAsync(string parentId)
-        {
-            return _queryDispatcher.DispatchAsync<FetchContentPagesByParentIdQuery, IList<IContentPage>>(new FetchContentPagesByParentIdQuery
-            {
-                ParentId = parentId,
-            });
-        }
-
-        public Task<IList<IContentPage>> GetByParentIdAsync(IList<string> parentIds)
-        {
-            return _queryDispatcher.DispatchAsync<FetchContentPagesByParentIdsQuery, IList<IContentPage>>(new FetchContentPagesByParentIdsQuery
-            {
-                ParentIds = parentIds,
-            });
-        }
-
-        public Task<IList<IContentPage>> GetByRootAsync()
-        {
-            return _queryDispatcher.DispatchAsync<FetchContentPagesByRootQuery, IList<IContentPage>>(new FetchContentPagesByRootQuery());
-        }
-
-        public Task<IList<IContentPage>> GetBySearchAsync(string searchTerm)
-        {
-            return _queryDispatcher.DispatchAsync<FetchContentPagesBySearchQuery, IList<IContentPage>>(new FetchContentPagesBySearchQuery
-            {
-                SearchTerm = searchTerm,
-            });
+            return _queryDispatcher.DispatchAsync<FetchContentPagesBySearchQuery, SearchResult<IContentPage>>(
+                new FetchContentPagesBySearchQuery
+                {
+                    SearchTerm = searchTerm,
+                    ParentId = parentId,
+                    PageCursor = pageCursor,
+                    PageSize = pageSize,
+                    SortKey = sortKey,
+                    Reverse = reverse,
+                });
         }
     }
 }

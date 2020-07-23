@@ -68,7 +68,13 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.QueryH
 
             // Paginate - Skip
             var nodeId = DecodeCursor(query.PageCursor);
-            inMemoryQuery = inMemoryQuery.SkipWhile(x => x.Id != nodeId); // Skip until we reach cursor
+            if (!string.IsNullOrEmpty(nodeId))
+            {
+                // Skip until we reach cursor, then one more for next page
+                inMemoryQuery = inMemoryQuery
+                    .SkipWhile(x => x.Id != nodeId)
+                    .Skip(1);
+            }
 
             // Get remaining results to know if next page is available
             var remainingResults = inMemoryQuery.Count();
@@ -92,16 +98,32 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.QueryH
             return Task.FromResult(searchResult);
         }
 
-        private string EncodeCursor(string plainText)
+        private string EncodeCursor(string rawCursor)
         {
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
-            return Convert.ToBase64String(plainTextBytes);
+            try
+            {
+                var bytes = System.Text.Encoding.UTF8.GetBytes(rawCursor);
+                return Convert.ToBase64String(bytes);
+            }
+            catch
+            {
+                // Invalid cursor
+                return string.Empty;
+            }
         }
 
-        private string DecodeCursor(string base64EncodedData)
+        private string DecodeCursor(string encodedCursor)
         {
-            var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
-            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+            try
+            {
+                var bytes = Convert.FromBase64String(encodedCursor);
+                return System.Text.Encoding.UTF8.GetString(bytes);
+            }
+            catch
+            {
+                // Invalid cursor
+                return string.Empty;
+            }
         }
     }
 }

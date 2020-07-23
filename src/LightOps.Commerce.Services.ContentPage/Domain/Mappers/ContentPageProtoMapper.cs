@@ -26,8 +26,8 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Mappers
                 Url = src.Url,
                 Type = src.Type,
                 Summary = src.Summary,
-                CreatedAt = Timestamp.FromDateTime(src.CreatedAt),
-                UpdatedAt = Timestamp.FromDateTime(src.UpdatedAt),
+                CreatedAt = Timestamp.FromDateTime(src.CreatedAt.ToUniversalTime()),
+                UpdatedAt = Timestamp.FromDateTime(src.UpdatedAt.ToUniversalTime()),
                 PrimaryImage = _mappingService.Map<IImage, ImageProto>(src.PrimaryImage),
             };
         }

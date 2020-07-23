@@ -1,6 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Grpc.Core;
 using LightOps.Commerce.Proto.Services;
+using LightOps.Commerce.Proto.Types;
+using LightOps.Commerce.Services.ContentPage.Api.Enums;
 using LightOps.Commerce.Services.ContentPage.Api.Models;
 using LightOps.Commerce.Services.ContentPage.Api.Services;
 using LightOps.Mapping.Api.Services;
@@ -24,95 +28,68 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Services
             _mappingService = mappingService;
         }
 
-        public override async Task<ProtoGetContentPageResponse> GetContentPage(ProtoGetContentPageRequest request, ServerCallContext context)
-        {
-            IContentPage entity;
-            switch (request.IdentifierCase)
-            {
-                case ProtoGetContentPageRequest.IdentifierOneofCase.Id:
-                    entity = await _contentPageService.GetByIdAsync(request.Id);
-                    break;
-                case ProtoGetContentPageRequest.IdentifierOneofCase.Handle:
-                    entity = await _contentPageService.GetByHandleAsync(request.Handle);
-                    break;
-                default:
-                    throw new RpcException(new Status(StatusCode.InvalidArgument, "Missing identifier"));
-            }
-
-            var protoEntity = _mappingService.Map<IContentPage, ProtoContentPage>(entity);
-
-            var result = new ProtoGetContentPageResponse
-            {
-                ContentPage = protoEntity,
-            };
-
-            return result;
-        }
-
-        public override async Task<GetContentPagesByIdsResponse> GetContentPagesByIds(GetContentPagesByIdsRequest request, ServerCallContext context)
-        {
-            var entities = await _contentPageService.GetByIdAsync(request.Ids);
-            var protoEntities = _mappingService.Map<IContentPage, ProtoContentPage>(entities);
-
-            var result = new GetContentPagesByIdsResponse();
-            result.ContentPages.AddRange(protoEntities);
-
-            return result;
-        }
-
-        public override async Task<GetContentPagesByHandlesResponse> GetContentPagesByHandles(GetContentPagesByHandlesRequest request, ServerCallContext context)
+        public override async Task<GetContentPagesByHandlesProtoResponse> GetContentPagesByHandles(GetContentPagesByHandlesProtoRequest request, ServerCallContext context)
         {
             var entities = await _contentPageService.GetByHandleAsync(request.Handles);
-            var protoEntities = _mappingService.Map<IContentPage, ProtoContentPage>(entities);
+            var protoEntities = _mappingService.Map<IContentPage, ContentPageProto>(entities);
 
-            var result = new GetContentPagesByHandlesResponse();
+            var result = new GetContentPagesByHandlesProtoResponse();
             result.ContentPages.AddRange(protoEntities);
 
             return result;
         }
 
-        public override async Task<ProtoGetContentPagesByParentIdResponse> GetContentPagesByParentId(ProtoGetContentPagesByParentIdRequest request, ServerCallContext context)
+        public override async Task<GetContentPagesByIdsProtoResponse> GetContentPagesByIds(GetContentPagesByIdsProtoRequest request, ServerCallContext context)
         {
-            var entities = await _contentPageService.GetByParentIdAsync(request.ParentId);
-            var protoEntities = _mappingService.Map<IContentPage, ProtoContentPage>(entities);
+            var entities = await _contentPageService.GetByIdAsync(request.Ids);
+            var protoEntities = _mappingService.Map<IContentPage, ContentPageProto>(entities);
 
-            var result = new ProtoGetContentPagesByParentIdResponse();
+            var result = new GetContentPagesByIdsProtoResponse();
             result.ContentPages.AddRange(protoEntities);
 
             return result;
         }
 
-        public override async Task<ProtoGetContentPagesByParentIdsResponse> GetContentPagesByParentIds(ProtoGetContentPagesByParentIdsRequest request, ServerCallContext context)
+        public override async Task<GetContentPagesBySearchProtoResponse> GetContentPagesBySearch(GetContentPagesBySearchProtoRequest request, ServerCallContext context)
         {
-            var entities = await _contentPageService.GetByParentIdAsync(request.ParentIds);
-            var protoEntities = _mappingService.Map<IContentPage, ProtoContentPage>(entities);
+            var searchResult = await _contentPageService.GetBySearchAsync(
+                request.SearchTerm,
+                request.ParentId,
+                request.PageCursor,
+                request.PageSize ?? 24,
+                ConvertSortKey(request.SortKey),
+                request.Reverse ?? false);
 
-            var result = new ProtoGetContentPagesByParentIdsResponse();
-            result.ContentPages.AddRange(protoEntities);
+            var protoEntities = _mappingService
+                .Map<IContentPage, ContentPageProto>(searchResult.Results)
+                .ToList();
+
+            var result = new GetContentPagesBySearchProtoResponse
+            {
+                HasNextPage = searchResult.HasNextPage,
+                NextPageCursor = searchResult.NextPageCursor,
+                TotalResults = searchResult.TotalResults,
+            };
+            result.Results.AddRange(protoEntities);
 
             return result;
         }
 
-        public override async Task<ProtoGetContentPagesByRootResponse> GetContentPagesByRoot(ProtoGetContentPagesByRootRequest request, ServerCallContext context)
+        private ContentPageSortKey ConvertSortKey(ContentPageSortKeyProto sortKey)
         {
-            var entities = await _contentPageService.GetByRootAsync();
-            var protoEntities = _mappingService.Map<IContentPage, ProtoContentPage>(entities);
-
-            var result = new ProtoGetContentPagesByRootResponse();
-            result.ContentPages.AddRange(protoEntities);
-
-            return result;
-        }
-
-        public override async Task<ProtoGetContentPagesBySearchResponse> GetContentPagesBySearch(ProtoGetContentPagesBySearchRequest request, ServerCallContext context)
-        {
-            var entities = await _contentPageService.GetBySearchAsync(request.SearchTerm);
-            var protoEntities = _mappingService.Map<IContentPage, ProtoContentPage>(entities);
-
-            var result = new ProtoGetContentPagesBySearchResponse();
-            result.ContentPages.AddRange(protoEntities);
-
-            return result;
+            switch (sortKey)
+            {
+                case ContentPageSortKeyProto.Default:
+                    return ContentPageSortKey.Default;
+                case ContentPageSortKeyProto.Title:
+                    return ContentPageSortKey.Title;
+                case ContentPageSortKeyProto.CreatedAt:
+                    return ContentPageSortKey.CreatedAt;
+                case ContentPageSortKeyProto.UpdatedAt:
+                    return ContentPageSortKey.UpdatedAt;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

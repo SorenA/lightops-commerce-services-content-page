@@ -61,11 +61,13 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
         internal enum Mappers
         {
             ContentPageProtoMapper,
+            ImageProtoMapper,
         }
 
         private readonly Dictionary<Mappers, ServiceRegistration> _mappers = new Dictionary<Mappers, ServiceRegistration>
         {
             [Mappers.ContentPageProtoMapper] = ServiceRegistration.Transient<IMapper<IContentPage, ContentPageProto>, ContentPageProtoMapper>(),
+            [Mappers.ImageProtoMapper] = ServiceRegistration.Transient<IMapper<IImage, ImageProto>, ImageProtoMapper>(),
         };
 
         public IContentPageServiceComponent OverrideContentPageProtoMapper<T>() where T : IMapper<IContentPage, ContentPageProto>
@@ -73,6 +75,13 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
             _mappers[Mappers.ContentPageProtoMapper].ImplementationType = typeof(T);
             return this;
         }
+
+        public IContentPageServiceComponent OverrideImageProtoMapper<T>() where T : IMapper<IImage, ImageProto>
+        {
+            _mappers[Mappers.ContentPageProtoMapper].ImplementationType = typeof(T);
+            return this;
+        }
+
         #endregion Mappers
 
         #region Query Handlers
