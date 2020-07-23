@@ -7,7 +7,7 @@ using LightOps.Commerce.Services.ContentPage.Api.Services;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 
-namespace LightOps.Commerce.Services.ContentPage.Domain.Services
+namespace LightOps.Commerce.Services.ContentPage.Domain.Services.Grpc
 {
     public class HealthGrpcService : Health.HealthBase
     {
@@ -30,7 +30,7 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Services
                 var statusMap = new Dictionary<string, HealthCheckResponse.Types.ServingStatus>();
 
                 // Check all services
-                statusMap.Add("service.content_page.v1.ProtoContentPageService", await GetContentPageServiceStatusAsync());
+                statusMap.Add("service.content_page.ProtoContentPageService", await GetContentPageServiceStatusAsync());
 
                 return new HealthCheckResponse
                 {
@@ -43,7 +43,7 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Services
             var servingStatus = HealthCheckResponse.Types.ServingStatus.Unknown;
             switch (request.Service)
             {
-                case "service.content_page.v1.ProtoContentPageService":
+                case "service.content_page.ProtoContentPageService":
                     servingStatus = await GetContentPageServiceStatusAsync();
                     break;
                 default:

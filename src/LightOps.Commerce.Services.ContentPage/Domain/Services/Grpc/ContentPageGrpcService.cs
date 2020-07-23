@@ -10,7 +10,7 @@ using LightOps.Commerce.Services.ContentPage.Api.Services;
 using LightOps.Mapping.Api.Services;
 using Microsoft.Extensions.Logging;
 
-namespace LightOps.Commerce.Services.ContentPage.Domain.Services
+namespace LightOps.Commerce.Services.ContentPage.Domain.Services.Grpc
 {
     public class ContentPageGrpcService : ContentPageProtoService.ContentPageProtoServiceBase
     {
