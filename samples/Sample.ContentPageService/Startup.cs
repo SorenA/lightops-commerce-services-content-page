@@ -1,6 +1,6 @@
 using LightOps.Commerce.Services.ContentPage.Backends.InMemory.Configuration;
 using LightOps.Commerce.Services.ContentPage.Configuration;
-using LightOps.Commerce.Services.ContentPage.Domain.Services;
+using LightOps.Commerce.Services.ContentPage.Domain.Services.Grpc;
 using LightOps.CQRS.Configuration;
 using LightOps.DependencyInjection.Configuration;
 using LightOps.Mapping.Configuration;
