@@ -28,7 +28,7 @@ namespace Sample.ContentPageService
                     {
                         service.UseInMemoryBackend(root, backend =>
                         {
-                            var factory = new BogusContentFactory
+                            var factory = new MockDataFactory
                             {
                                 Seed = 123,
                             };
