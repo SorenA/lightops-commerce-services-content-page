@@ -35,11 +35,11 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Services
         }
 
         public Task<SearchResult<IContentPage>> GetBySearchAsync(string searchTerm,
-                                                                 string parentId = null,
-                                                                 string pageCursor = null,
-                                                                 int pageSize = 24,
-                                                                 ContentPageSortKey sortKey = ContentPageSortKey.Default,
-                                                                 bool reverse = false)
+                                                                 string parentId,
+                                                                 string pageCursor,
+                                                                 int pageSize,
+                                                                 ContentPageSortKey sortKey,
+                                                                 bool reverse)
         {
             return _queryDispatcher.DispatchAsync<FetchContentPagesBySearchQuery, SearchResult<IContentPage>>(
                 new FetchContentPagesBySearchQuery
