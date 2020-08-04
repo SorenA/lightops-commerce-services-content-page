@@ -30,7 +30,7 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Services.Grpc
                 var statusMap = new Dictionary<string, HealthCheckResponse.Types.ServingStatus>();
 
                 // Check all services
-                statusMap.Add("service.content_page.ContentPageProtoService", await GetContentPageServiceStatusAsync());
+                statusMap.Add("lightops.service.ContentPageProtoService", await GetContentPageServiceStatusAsync());
 
                 return new HealthCheckResponse
                 {
@@ -43,7 +43,7 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Services.Grpc
             var servingStatus = HealthCheckResponse.Types.ServingStatus.Unknown;
             switch (request.Service)
             {
-                case "service.content_page.ContentPageProtoService":
+                case "lightops.service.ContentPageProtoService":
                     servingStatus = await GetContentPageServiceStatusAsync();
                     break;
                 default:

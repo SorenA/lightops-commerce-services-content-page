@@ -16,7 +16,7 @@ namespace LightOps.Commerce.Services.ContentPage.Api.Services
         Task<IList<IContentPage>> GetByHandleAsync(IList<string> handles);
 
         /// <summary>
-        /// 
+        /// Gets a list of content pages by ids
         /// </summary>
         /// <param name="ids">The ids of the content pages</param>
         /// <returns>List of content pages, if any</returns>

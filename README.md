@@ -29,7 +29,7 @@ Available services are as follows
 
 ```bash
 service = '' - System as a whole
-service = 'service.content_page.ContentPageProtoService' - ContentPage
+service = 'lightops.service.ContentPageProtoService' - ContentPage
 ```
 
 For embedding a gRPC client for use with Kubernetes, see [grpc-ecosystem/grpc-health-probe](https://github.com/grpc-ecosystem/grpc-health-probe)

@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.4.0] - 2020-07-23
+## [0.4.0] - 2020-08-04
 
 ### Added
 
@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Breaking** - Updated refactored service definition
 - **Breaking** - Removed deprecated queries, query handlers and service methods
 - **Breaking** - Extending search query, adding cursor-based pagination
+- **Breaking** - Changed health-check service name
 
 ## [0.3.1] - 2020-07-21
 
