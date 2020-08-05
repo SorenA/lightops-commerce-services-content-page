@@ -31,7 +31,7 @@ namespace LightOps.Commerce.Services.ContentPage.Api.Services
         /// <param name="pageSize">The page size to use</param>
         /// <param name="sortKey">Sort the underlying list by the given key</param>
         /// <param name="reverse">Whether to reverse the order of the underlying list</param>
-        /// <returns></returns>
+        /// <returns>Search result with content pages matching search</returns>
         Task<SearchResult<IContentPage>> GetBySearchAsync(string searchTerm,
                                                           string parentId,
                                                           string pageCursor,
