@@ -6,7 +6,7 @@ namespace LightOps.Commerce.Services.ContentPage.Api.Queries
     public class FetchContentPagesBySearchQuery : IQuery
     {
         /// <summary>
-        /// The term to search for
+        /// The term to search for, if any
         /// </summary>
         public string SearchTerm { get; set; }
 

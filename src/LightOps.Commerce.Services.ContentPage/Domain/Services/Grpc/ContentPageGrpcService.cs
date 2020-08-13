@@ -60,14 +60,22 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Services.Grpc
                 ConvertSortKey(request.SortKey),
                 request.Reverse ?? false);
 
-            var protoEntities = _mappingService
-                .Map<IContentPage, ContentPageProto>(searchResult.Results)
+            // Map results
+            var protoEntities = searchResult
+                .Results
+                .Select(x => new GetContentPagesBySearchProtoResponse.Types.ContentPageResult
+                {
+                    Cursor = x.Cursor,
+                    Node = _mappingService.Map<IContentPage, ContentPageProto>(x.Node),
+                })
                 .ToList();
 
             var result = new GetContentPagesBySearchProtoResponse
             {
                 HasNextPage = searchResult.HasNextPage,
-                NextPageCursor = searchResult.NextPageCursor,
+                HasPreviousPage = searchResult.HasPreviousPage,
+                StartCursor = searchResult.StartCursor ?? string.Empty,
+                EndCursor = searchResult.EndCursor ?? string.Empty,
                 TotalResults = searchResult.TotalResults,
             };
             result.Results.AddRange(protoEntities);
