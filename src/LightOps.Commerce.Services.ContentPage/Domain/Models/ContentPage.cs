@@ -5,6 +5,12 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Models
 {
     public class ContentPage : IContentPage
     {
+        public ContentPage()
+        {
+            // Default to searchable
+            IsSearchable = true;
+        }
+
         public string Id { get; set; }
         public string ParentId { get; set; }
         public string Handle { get; set; }
@@ -15,5 +21,6 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Models
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public IImage PrimaryImage { get; set; }
+        public bool IsSearchable { get; set; }
     }
 }

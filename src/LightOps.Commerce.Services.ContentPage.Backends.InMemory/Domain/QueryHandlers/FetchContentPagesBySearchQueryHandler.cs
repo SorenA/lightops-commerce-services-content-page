@@ -27,6 +27,9 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.QueryH
             var inMemoryQuery = _inMemoryContentPageProvider.ContentPages
                 .AsQueryable();
 
+            // Filter out un-searchable
+            inMemoryQuery = inMemoryQuery.Where(x => x.IsSearchable);
+
             // Sort underlying list
             switch (query.SortKey)
             {

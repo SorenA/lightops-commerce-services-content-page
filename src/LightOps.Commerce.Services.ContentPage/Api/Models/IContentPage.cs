@@ -53,5 +53,10 @@ namespace LightOps.Commerce.Services.ContentPage.Api.Models
         /// The primary image of the content page
         /// </summary>
         IImage PrimaryImage { get; set; }
+
+        /// <summary>
+        /// Whether or not the content page is searchable
+        /// </summary>
+        bool IsSearchable { get; set; }
     }
 }
