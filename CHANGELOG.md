@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.1] - 2020-09-03
+
+### Added
+
+- IsSearchable bit to content pages
+
 ## [0.5.0] - 2020-08-13
 
 ### Changed
@@ -75,7 +81,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Health service using CQRS for status checks
 - In-memory backend providing default query handlers
 
-[unreleased]: https://github.com/SorenA/lightops-commerce-services-content-page/compare/0.5.0...develop
+[unreleased]: https://github.com/SorenA/lightops-commerce-services-content-page/compare/0.5.1...develop
+[0.5.1]: https://github.com/SorenA/lightops-commerce-services-content-page/tree/0.5.1
 [0.5.0]: https://github.com/SorenA/lightops-commerce-services-content-page/tree/0.5.0
 [0.4.0]: https://github.com/SorenA/lightops-commerce-services-content-page/tree/0.4.0
 [0.3.1]: https://github.com/SorenA/lightops-commerce-services-content-page/tree/0.3.1
