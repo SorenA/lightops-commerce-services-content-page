@@ -14,26 +14,19 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Configuration
 
         public IReadOnlyList<ServiceRegistration> GetServiceRegistrations()
         {
-            // Populate in-memory providers
-            _providers[Providers.InMemoryContentPageProvider].ImplementationInstance = new InMemoryContentPageProvider
-            {
-                ContentPages = _contentPages,
-            };
-
             return new List<ServiceRegistration>()
                 .Union(_providers.Values)
                 .ToList();
         }
 
         #region Entities
-        private readonly IList<IContentPage> _contentPages = new List<IContentPage>();
-
         public IInMemoryContentPageServiceBackendComponent UseContentPages(IList<IContentPage> contentPages)
         {
-            foreach (var contentPage in contentPages)
+            // Populate in-memory providers
+            _providers[Providers.InMemoryContentPageProvider].ImplementationInstance = new InMemoryContentPageProvider
             {
-                _contentPages.Add(contentPage);
-            }
+                ContentPages = contentPages,
+            };
 
             return this;
         }
@@ -49,6 +42,12 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Configuration
         {
             [Providers.InMemoryContentPageProvider] = ServiceRegistration.Singleton<IInMemoryContentPageProvider>(),
         };
+
+        public IInMemoryContentPageServiceBackendComponent OverrideContentPageProvider<T>() where T : IInMemoryContentPageProvider
+        {
+            _providers[Providers.InMemoryContentPageProvider].ImplementationType = typeof(T);
+            return this;
+        }
         #endregion Providers
     }
 }

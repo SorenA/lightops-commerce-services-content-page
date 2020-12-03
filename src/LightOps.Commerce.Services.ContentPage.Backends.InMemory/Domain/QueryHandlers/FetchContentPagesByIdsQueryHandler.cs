@@ -20,7 +20,7 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.QueryH
         public Task<IList<IContentPage>> HandleAsync(FetchContentPagesByIdsQuery query)
         {
             var contentPages = _inMemoryContentPageProvider
-                .ContentPages
+                .ContentPages?
                 .Where(c => query.Ids.Contains(c.Id))
                 .ToList();
 

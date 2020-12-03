@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Buffers.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,8 +23,9 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.QueryH
         public Task<SearchResult<IContentPage>> HandleAsync(FetchContentPagesBySearchQuery query)
         {
 
-            var inMemoryQuery = _inMemoryContentPageProvider.ContentPages
-                .AsQueryable();
+            var inMemoryQuery = _inMemoryContentPageProvider
+                .ContentPages?
+                .AsQueryable() ?? new EnumerableQuery<IContentPage>(new List<IContentPage>());
 
             // Filter out un-searchable
             inMemoryQuery = inMemoryQuery.Where(x => x.IsSearchable);
