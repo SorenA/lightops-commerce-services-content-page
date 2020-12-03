@@ -40,7 +40,7 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Configuration
 
         private readonly Dictionary<Providers, ServiceRegistration> _providers = new Dictionary<Providers, ServiceRegistration>()
         {
-            [Providers.InMemoryContentPageProvider] = ServiceRegistration.Singleton<IInMemoryContentPageProvider>(),
+            [Providers.InMemoryContentPageProvider] = ServiceRegistration.Singleton<IInMemoryContentPageProvider, InMemoryContentPageProvider>(),
         };
 
         public IInMemoryContentPageServiceBackendComponent OverrideContentPageProvider<T>() where T : IInMemoryContentPageProvider

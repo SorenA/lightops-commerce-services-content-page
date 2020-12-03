@@ -22,7 +22,6 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.QueryH
         
         public Task<SearchResult<IContentPage>> HandleAsync(FetchContentPagesBySearchQuery query)
         {
-
             var inMemoryQuery = _inMemoryContentPageProvider
                 .ContentPages?
                 .AsQueryable() ?? new EnumerableQuery<IContentPage>(new List<IContentPage>());

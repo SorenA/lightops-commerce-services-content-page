@@ -24,7 +24,7 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.QueryH
                 .Where(c => query.Handles.Contains(c.Handle))
                 .ToList();
 
-            return Task.FromResult<IList<IContentPage>>(contentPages);
+            return Task.FromResult<IList<IContentPage>>(contentPages ?? new List<IContentPage>());
         }
     }
 }
