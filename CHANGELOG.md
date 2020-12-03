@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.2] - 2020-12-03
+
+### Changed
+
+- In-memory backend content page provider made overridable on startup
+- In-memory queries now support content page collection being null
+
 ## [0.5.1] - 2020-09-03
 
 ### Added
@@ -81,7 +88,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Health service using CQRS for status checks
 - In-memory backend providing default query handlers
 
-[unreleased]: https://github.com/SorenA/lightops-commerce-services-content-page/compare/0.5.1...develop
+[unreleased]: https://github.com/SorenA/lightops-commerce-services-content-page/compare/0.5.2...develop
+[0.5.2]: https://github.com/SorenA/lightops-commerce-services-content-page/tree/0.5.2
 [0.5.1]: https://github.com/SorenA/lightops-commerce-services-content-page/tree/0.5.1
 [0.5.0]: https://github.com/SorenA/lightops-commerce-services-content-page/tree/0.5.0
 [0.4.0]: https://github.com/SorenA/lightops-commerce-services-content-page/tree/0.4.0
