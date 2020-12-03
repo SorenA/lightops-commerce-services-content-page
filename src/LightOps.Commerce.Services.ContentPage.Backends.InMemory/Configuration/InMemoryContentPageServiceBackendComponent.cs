@@ -23,6 +23,7 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Configuration
         public IInMemoryContentPageServiceBackendComponent UseContentPages(IList<IContentPage> contentPages)
         {
             // Populate in-memory providers
+            _providers[Providers.InMemoryContentPageProvider].ImplementationType = null;
             _providers[Providers.InMemoryContentPageProvider].ImplementationInstance = new InMemoryContentPageProvider
             {
                 ContentPages = contentPages,
@@ -45,6 +46,7 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Configuration
 
         public IInMemoryContentPageServiceBackendComponent OverrideContentPageProvider<T>() where T : IInMemoryContentPageProvider
         {
+            _providers[Providers.InMemoryContentPageProvider].ImplementationInstance = null;
             _providers[Providers.InMemoryContentPageProvider].ImplementationType = typeof(T);
             return this;
         }

@@ -6,6 +6,6 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.Provid
 {
     public class InMemoryContentPageProvider : IInMemoryContentPageProvider
     {
-        public IList<IContentPage> ContentPages { get; internal set; }
+        public IList<IContentPage> ContentPages { get; internal set; } = new List<IContentPage>();
     }
 }
