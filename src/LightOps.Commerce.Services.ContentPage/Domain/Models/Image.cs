@@ -8,5 +8,7 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Models
         public string Id { get; set; }
         public string Url { get; set; }
         public string AltText { get; set; }
+        public double FocalCenterTop { get; set; }
+        public double FocalCenterLeft { get; set; }
     }
 }
