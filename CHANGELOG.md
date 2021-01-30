@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2021-01-30
+
+### Added
+
+- Persist and delete content page commands
+- In-memory backend persist and delete command handlers
+
+### Changed
+
+- **Breaking** - Migrated to .NET 5
+- **Breaking** - Updated refactored and renamed service definition
+- Use Protobuf generated models and services directly instead of mapping and re-implementing services, cuts code required by a lot.
+
+### Removed
+
+- **Breaking** - Local entity interfaces, models and mappers, no longer needed
+- **Breaking** - ContentPageService and HealthService
+
 ## [0.5.5] - 2020-12-28
 
 ### Added
