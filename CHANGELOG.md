@@ -125,7 +125,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Health service using CQRS for status checks
 - In-memory backend providing default query handlers
 
-[unreleased]: https://github.com/SorenA/lightops-commerce-services-content-page/compare/0.5.5...develop
+[unreleased]: https://github.com/SorenA/lightops-commerce-services-content-page/compare/0.6.0...develop
+[0.6.0]: https://github.com/SorenA/lightops-commerce-services-content-page/tree/0.6.0
 [0.5.5]: https://github.com/SorenA/lightops-commerce-services-content-page/tree/0.5.5
 [0.5.4]: https://github.com/SorenA/lightops-commerce-services-content-page/tree/0.5.4
 [0.5.3]: https://github.com/SorenA/lightops-commerce-services-content-page/tree/0.5.3
