@@ -39,7 +39,7 @@ message PersistResponse {
   // The status code of the operation
   StatusCode status_code = 1;
 
-  // The errors occoured, if any.
+  // The errors occoured, if any
   repeated string errors = 2;
 
   enum StatusCode {
