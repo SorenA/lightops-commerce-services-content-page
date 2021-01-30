@@ -44,7 +44,6 @@ namespace Sample.ContentPageService.Data
                 .RuleFor(x => x.Id, f => $"gid://ContentPage/{f.UniqueIndex}")
                 .RuleFor(x => x.ParentId, f => parentId ?? "gid://")
                 .RuleFor(x => x.Handle, (f, x) => $"content-page-{f.UniqueIndex}")
-                .RuleFor(x => x.Url, f => f.Internet.UrlRootedPath())
                 .RuleFor(x => x.Type, f => "page")
                 .RuleFor(x => x.CreatedAt, f => Timestamp.FromDateTime(f.Date.Past(2).ToUniversalTime()))
                 .RuleFor(x => x.UpdatedAt, f => Timestamp.FromDateTime(f.Date.Past().ToUniversalTime()))
@@ -60,24 +59,29 @@ namespace Sample.ContentPageService.Data
                 .FinishWith((f, x) =>
                 {
                     var title = f.Address.City();
-                    x.Title.AddRange(GetLocalizedStrings(title));
-                    x.Description.AddRange(GetLocalizedStrings($"{title} - Description"));
+                    x.Titles.AddRange(GetLocalizedStrings(title));
+                    x.Descriptions.AddRange(GetLocalizedStrings($"{title} - Description"));
+                    x.Urls.AddRange(GetLocalizedStrings(f.Internet.UrlRootedPath(), true));
                 });
         }
 
-        private IList<LocalizedString> GetLocalizedStrings(string value)
+        private IList<LocalizedString> GetLocalizedStrings(string value, bool isUrl = false)
         {
             return new List<LocalizedString>
             {
                 new LocalizedString
                 {
                     LanguageCode = "en-US",
-                    Value = $"{value} [en-US]",
+                    Value = isUrl
+                        ? $"/en-us{value}"
+                        : $"{value} [en-US]",
                 },
                 new LocalizedString
                 {
                     LanguageCode = "da-DK",
-                    Value = $"{value} [da-DK]",
+                    Value = isUrl
+                        ? $"/da-dk{value}"
+                        : $"{value} [da-DK]",
                 }
             };
         }

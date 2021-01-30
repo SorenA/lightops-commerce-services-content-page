@@ -18,17 +18,17 @@ message ContentPage {
   // A human-friendly unique string for the content page
   string handle = 3;
 
-  // The title of the content page
-  repeated lightops.type.LocalizedString title = 4;
+  // The localized titles of the content page
+  repeated lightops.type.LocalizedString titles = 4;
 
-  // The url of the content page
-  string url = 5;
+  // The localized urls of the content page
+  repeated lightops.type.LocalizedString urls = 5;
 
   // The type of the content page
   string type = 6;
 
-  // The description of the content page
-  repeated lightops.type.LocalizedString description = 7;
+  // The localized descriptions of the content page
+  repeated lightops.type.LocalizedString descriptions = 7;
 
   // The timestamp of content page creation
   google.protobuf.Timestamp created_at = 8;
