@@ -2,7 +2,7 @@
 
 namespace LightOps.Commerce.Services.ContentPage.Api.Queries
 {
-    public class CheckContentPageHealthQuery : IQuery
+    public class CheckContentPageServiceHealthQuery : IQuery
     {
 
     }

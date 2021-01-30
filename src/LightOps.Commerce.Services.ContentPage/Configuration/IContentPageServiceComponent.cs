@@ -6,7 +6,7 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
     public interface IContentPageServiceComponent
     {
         #region Query Handlers
-        IContentPageServiceComponent OverrideCheckContentPageHealthQueryHandler<T>() where T : ICheckContentPageHealthQueryHandler;
+        IContentPageServiceComponent OverrideCheckContentPageServiceHealthQueryHandler<T>() where T : ICheckContentPageServiceHealthQueryHandler;
 
         IContentPageServiceComponent OverrideFetchContentPagesByHandlesQueryHandler<T>() where T : IFetchContentPagesByHandlesQueryHandler;
         IContentPageServiceComponent OverrideFetchContentPagesByIdsQueryHandler<T>() where T : IFetchContentPagesByIdsQueryHandler;

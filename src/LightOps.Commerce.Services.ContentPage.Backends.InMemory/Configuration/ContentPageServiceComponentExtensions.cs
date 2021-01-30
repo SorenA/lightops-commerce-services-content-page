@@ -28,7 +28,7 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Configuration
 
             // Override query handlers
             serviceComponent
-                .OverrideCheckContentPageHealthQueryHandler<CheckContentPageHealthQueryHandler>()
+                .OverrideCheckContentPageServiceHealthQueryHandler<CheckContentPageServiceHealthQueryHandler>()
                 .OverrideFetchContentPagesByHandlesQueryHandler<FetchContentPagesByHandlesQueryHandler>()
                 .OverrideFetchContentPagesByIdsQueryHandler<FetchContentPagesByIdsQueryHandler>()
                 .OverrideFetchContentPagesBySearchQueryHandler<FetchContentPagesBySearchQueryHandler>();

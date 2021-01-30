@@ -6,16 +6,16 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.QueryHandlers
 {
-    public class CheckContentPageHealthQueryHandler : ICheckContentPageHealthQueryHandler
+    public class CheckContentPageServiceHealthQueryHandler : ICheckContentPageServiceHealthQueryHandler
     {
         private readonly IInMemoryContentPageProvider _inMemoryContentPageProvider;
 
-        public CheckContentPageHealthQueryHandler(IInMemoryContentPageProvider inMemoryContentPageProvider)
+        public CheckContentPageServiceHealthQueryHandler(IInMemoryContentPageProvider inMemoryContentPageProvider)
         {
             _inMemoryContentPageProvider = inMemoryContentPageProvider;
         }
 
-        public Task<HealthStatus> HandleAsync(CheckContentPageHealthQuery query)
+        public Task<HealthStatus> HandleAsync(CheckContentPageServiceHealthQuery query)
         {
             return _inMemoryContentPageProvider.ContentPages != null
                 ? Task.FromResult(HealthStatus.Healthy)

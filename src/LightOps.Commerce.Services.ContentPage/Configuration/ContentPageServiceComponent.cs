@@ -28,7 +28,7 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
         #region Query Handlers
         internal enum QueryHandlers
         {
-            CheckContentPageHealthQueryHandler,
+            CheckContentPageServiceHealthQueryHandler,
 
             FetchContentPagesByHandlesQueryHandler,
             FetchContentPagesByIdsQueryHandler,
@@ -37,16 +37,16 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
 
         private readonly Dictionary<QueryHandlers, ServiceRegistration> _queryHandlers = new Dictionary<QueryHandlers, ServiceRegistration>
         {
-            [QueryHandlers.CheckContentPageHealthQueryHandler] = ServiceRegistration.Transient<IQueryHandler<CheckContentPageHealthQuery, HealthStatus>>(),
+            [QueryHandlers.CheckContentPageServiceHealthQueryHandler] = ServiceRegistration.Transient<IQueryHandler<CheckContentPageServiceHealthQuery, HealthStatus>>(),
 
             [QueryHandlers.FetchContentPagesByHandlesQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesByHandlesQuery, IList<Proto.Types.ContentPage>>>(),
             [QueryHandlers.FetchContentPagesByIdsQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesByIdsQuery, IList<Proto.Types.ContentPage>>>(),
             [QueryHandlers.FetchContentPagesBySearchQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesBySearchQuery, SearchResult<Proto.Types.ContentPage>>>(),
         };
 
-        public IContentPageServiceComponent OverrideCheckContentPageHealthQueryHandler<T>() where T : ICheckContentPageHealthQueryHandler
+        public IContentPageServiceComponent OverrideCheckContentPageServiceHealthQueryHandler<T>() where T : ICheckContentPageServiceHealthQueryHandler
         {
-            _queryHandlers[QueryHandlers.CheckContentPageHealthQueryHandler].ImplementationType = typeof(T);
+            _queryHandlers[QueryHandlers.CheckContentPageServiceHealthQueryHandler].ImplementationType = typeof(T);
             return this;
         }
 

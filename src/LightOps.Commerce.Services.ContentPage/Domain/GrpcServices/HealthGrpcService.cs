@@ -60,7 +60,7 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.GrpcServices
 
         private async Task<HealthCheckResponse.Types.ServingStatus> GetContentPageServiceStatusAsync()
         {
-            var healthStatus = await _queryDispatcher.DispatchAsync<CheckContentPageHealthQuery, HealthStatus>(new CheckContentPageHealthQuery());
+            var healthStatus = await _queryDispatcher.DispatchAsync<CheckContentPageServiceHealthQuery, HealthStatus>(new CheckContentPageServiceHealthQuery());
 
             return healthStatus == HealthStatus.Healthy
                 ? HealthCheckResponse.Types.ServingStatus.Serving
