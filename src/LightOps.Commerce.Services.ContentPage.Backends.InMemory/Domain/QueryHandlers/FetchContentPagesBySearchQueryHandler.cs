@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LightOps.Commerce.Services.ContentPage.Api.Enums;
-using LightOps.Commerce.Services.ContentPage.Api.Models;
+using LightOps.Commerce.Proto.Services;
 using LightOps.Commerce.Services.ContentPage.Api.Queries;
 using LightOps.Commerce.Services.ContentPage.Api.QueryHandlers;
 using LightOps.Commerce.Services.ContentPage.Api.QueryResults;
@@ -20,11 +19,11 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.QueryH
             _inMemoryContentPageProvider = inMemoryContentPageProvider;
         }
         
-        public Task<SearchResult<IContentPage>> HandleAsync(FetchContentPagesBySearchQuery query)
+        public Task<SearchResult<Proto.Types.ContentPage>> HandleAsync(FetchContentPagesBySearchQuery query)
         {
             var inMemoryQuery = _inMemoryContentPageProvider
                 .ContentPages?
-                .AsQueryable() ?? new EnumerableQuery<IContentPage>(new List<IContentPage>());
+                .AsQueryable() ?? new EnumerableQuery<Proto.Types.ContentPage>(new List<Proto.Types.ContentPage>());
 
             // Filter out un-searchable
             inMemoryQuery = inMemoryQuery.Where(x => x.IsSearchable);
@@ -32,13 +31,13 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.QueryH
             // Sort underlying list
             switch (query.SortKey)
             {
-                case ContentPageSortKey.Title:
+                case GetBySearchRequest.Types.SortKey.Title:
                     inMemoryQuery = inMemoryQuery.OrderBy(x => x.Title);
                     break;
-                case ContentPageSortKey.CreatedAt:
+                case GetBySearchRequest.Types.SortKey.CreatedAt:
                     inMemoryQuery = inMemoryQuery.OrderBy(x => x.CreatedAt);
                     break;
-                case ContentPageSortKey.UpdatedAt:
+                case GetBySearchRequest.Types.SortKey.UpdatedAt:
                     inMemoryQuery = inMemoryQuery.OrderBy(x => x.UpdatedAt);
                     break;
             }
@@ -58,11 +57,32 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.QueryH
             // Search in list
             if (!string.IsNullOrEmpty(query.SearchTerm))
             {
-                var searchTerm = query.SearchTerm.ToLowerInvariant();
-                inMemoryQuery = inMemoryQuery
-                    .Where(x =>
-                        (!string.IsNullOrWhiteSpace(x.Title) && x.Title.ToLowerInvariant().Contains(searchTerm))
-                        || (!string.IsNullOrWhiteSpace(x.Summary) && x.Summary.ToLowerInvariant().Contains(searchTerm)));
+                // Match language if requested
+                if (!string.IsNullOrEmpty(query.LanguageCode))
+                {
+                    inMemoryQuery = inMemoryQuery
+                        .Where(x =>
+                            x.Title.Any(l =>
+                                l.LanguageCode == query.LanguageCode
+                                && l.Value.ToLowerInvariant().Contains(query.SearchTerm,
+                                    StringComparison.InvariantCultureIgnoreCase))
+                            || x.Description.Any(l =>
+                                l.LanguageCode == query.LanguageCode
+                                && l.Value.ToLowerInvariant().Contains(query.SearchTerm,
+                                    StringComparison.InvariantCultureIgnoreCase)));
+                }
+                else
+                {
+                    // No language code, match all
+                    inMemoryQuery = inMemoryQuery
+                        .Where(x =>
+                            x.Title.Any(l =>
+                                l.Value.ToLowerInvariant().Contains(query.SearchTerm,
+                                    StringComparison.InvariantCultureIgnoreCase))
+                            || x.Description.Any(l =>
+                                l.Value.ToLowerInvariant().Contains(query.SearchTerm,
+                                    StringComparison.InvariantCultureIgnoreCase)));
+                }
             }
 
             // Get total results
@@ -85,7 +105,7 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.QueryH
             // Paginate - Take
             var results = inMemoryQuery
                 .Take(query.PageSize)
-                .Select(x => new CursorNodeResult<IContentPage>
+                .Select(x => new CursorNodeResult<Proto.Types.ContentPage>
                 {
                     Cursor = EncodeCursor(x.Id),
                     Node = x,
@@ -96,7 +116,7 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.QueryH
             var startCursor = results.FirstOrDefault()?.Cursor;
             var endCursor = results.LastOrDefault()?.Cursor;
 
-            var searchResult = new SearchResult<IContentPage>
+            var searchResult = new SearchResult<Proto.Types.ContentPage>
             {
                 Results = results,
                 StartCursor = startCursor,

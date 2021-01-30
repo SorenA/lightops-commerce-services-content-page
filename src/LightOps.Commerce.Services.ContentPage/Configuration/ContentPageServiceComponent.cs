@@ -1,17 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using LightOps.Commerce.Proto.Types;
-using LightOps.Commerce.Services.ContentPage.Api.Models;
+using LightOps.Commerce.Services.ContentPage.Api.CommandHandlers;
+using LightOps.Commerce.Services.ContentPage.Api.Commands;
 using LightOps.Commerce.Services.ContentPage.Api.Queries;
 using LightOps.Commerce.Services.ContentPage.Api.QueryHandlers;
 using LightOps.Commerce.Services.ContentPage.Api.QueryResults;
-using LightOps.Commerce.Services.ContentPage.Api.Services;
-using LightOps.Commerce.Services.ContentPage.Domain.Mappers;
-using LightOps.Commerce.Services.ContentPage.Domain.Services;
+using LightOps.CQRS.Api.Commands;
 using LightOps.CQRS.Api.Queries;
 using LightOps.DependencyInjection.Api.Configuration;
 using LightOps.DependencyInjection.Domain.Configuration;
-using LightOps.Mapping.Api.Mappers;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace LightOps.Commerce.Services.ContentPage.Configuration
@@ -23,66 +20,10 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
         public IReadOnlyList<ServiceRegistration> GetServiceRegistrations()
         {
             return new List<ServiceRegistration>()
-                .Union(_services.Values)
-                .Union(_mappers.Values)
                 .Union(_queryHandlers.Values)
+                .Union(_commandHandlers.Values)
                 .ToList();
         }
-
-        #region Services
-        internal enum Services
-        {
-            HealthService,
-            ContentPageService,
-        }
-
-        private readonly Dictionary<Services, ServiceRegistration> _services = new Dictionary<Services, ServiceRegistration>
-        {
-            [Services.HealthService] = ServiceRegistration.Transient<IHealthService, HealthService>(),
-            [Services.ContentPageService] = ServiceRegistration.Transient<IContentPageService, ContentPageService>(),
-        };
-
-        public IContentPageServiceComponent OverrideHealthService<T>()
-            where T : IHealthService
-        {
-            _services[Services.HealthService].ImplementationType = typeof(T);
-            return this;
-        }
-
-        public IContentPageServiceComponent OverrideContentPageService<T>()
-            where T : IContentPageService
-        {
-            _services[Services.ContentPageService].ImplementationType = typeof(T);
-            return this;
-        }
-        #endregion Services
-
-        #region Mappers
-        internal enum Mappers
-        {
-            ContentPageProtoMapper,
-            ImageProtoMapper,
-        }
-
-        private readonly Dictionary<Mappers, ServiceRegistration> _mappers = new Dictionary<Mappers, ServiceRegistration>
-        {
-            [Mappers.ContentPageProtoMapper] = ServiceRegistration.Transient<IMapper<IContentPage, ContentPageProto>, ContentPageProtoMapper>(),
-            [Mappers.ImageProtoMapper] = ServiceRegistration.Transient<IMapper<IImage, ImageProto>, ImageProtoMapper>(),
-        };
-
-        public IContentPageServiceComponent OverrideContentPageProtoMapper<T>() where T : IMapper<IContentPage, ContentPageProto>
-        {
-            _mappers[Mappers.ContentPageProtoMapper].ImplementationType = typeof(T);
-            return this;
-        }
-
-        public IContentPageServiceComponent OverrideImageProtoMapper<T>() where T : IMapper<IImage, ImageProto>
-        {
-            _mappers[Mappers.ContentPageProtoMapper].ImplementationType = typeof(T);
-            return this;
-        }
-
-        #endregion Mappers
 
         #region Query Handlers
         internal enum QueryHandlers
@@ -98,9 +39,9 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
         {
             [QueryHandlers.CheckContentPageHealthQueryHandler] = ServiceRegistration.Transient<IQueryHandler<CheckContentPageHealthQuery, HealthStatus>>(),
 
-            [QueryHandlers.FetchContentPagesByHandlesQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesByHandlesQuery, IList<IContentPage>>>(),
-            [QueryHandlers.FetchContentPagesByIdsQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesByIdsQuery, IList<IContentPage>>>(),
-            [QueryHandlers.FetchContentPagesBySearchQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesBySearchQuery, SearchResult<IContentPage>>>(),
+            [QueryHandlers.FetchContentPagesByHandlesQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesByHandlesQuery, IList<Proto.Types.ContentPage>>>(),
+            [QueryHandlers.FetchContentPagesByIdsQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesByIdsQuery, IList<Proto.Types.ContentPage>>>(),
+            [QueryHandlers.FetchContentPagesBySearchQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchContentPagesBySearchQuery, SearchResult<Proto.Types.ContentPage>>>(),
         };
 
         public IContentPageServiceComponent OverrideCheckContentPageHealthQueryHandler<T>() where T : ICheckContentPageHealthQueryHandler
@@ -127,5 +68,31 @@ namespace LightOps.Commerce.Services.ContentPage.Configuration
             return this;
         }
         #endregion Query Handlers
+
+        #region Command Handlers
+        internal enum CommandHandlers
+        {
+            PersistContentPageCommandHandler,
+            DeleteContentPageCommandHandler,
+        }
+
+        private readonly Dictionary<CommandHandlers, ServiceRegistration> _commandHandlers = new Dictionary<CommandHandlers, ServiceRegistration>
+        {
+            [CommandHandlers.PersistContentPageCommandHandler] = ServiceRegistration.Transient<ICommandHandler<PersistContentPageCommand>>(),
+            [CommandHandlers.DeleteContentPageCommandHandler] = ServiceRegistration.Transient<ICommandHandler<DeleteContentPageCommand>>(),
+        };
+
+        public IContentPageServiceComponent OverridePersistContentPageCommandHandler<T>() where T : IPersistContentPageCommandHandler
+        {
+            _commandHandlers[CommandHandlers.PersistContentPageCommandHandler].ImplementationType = typeof(T);
+            return this;
+        }
+
+        public IContentPageServiceComponent OverrideDeleteContentPageCommandHandler<T>() where T : IDeleteContentPageCommandHandler
+        {
+            _commandHandlers[CommandHandlers.DeleteContentPageCommandHandler].ImplementationType = typeof(T);
+            return this;
+        }
+        #endregion Command Handlers
     }
 }

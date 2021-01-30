@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using LightOps.Commerce.Services.ContentPage.Api.Models;
 using LightOps.Commerce.Services.ContentPage.Backends.InMemory.Api.Providers;
 using LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.Providers;
 using LightOps.DependencyInjection.Api.Configuration;
@@ -20,7 +19,7 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Configuration
         }
 
         #region Entities
-        public IInMemoryContentPageServiceBackendComponent UseContentPages(IList<IContentPage> contentPages)
+        public IInMemoryContentPageServiceBackendComponent UseContentPages(IList<Proto.Types.ContentPage> contentPages)
         {
             // Populate in-memory providers
             _providers[Providers.InMemoryContentPageProvider].ImplementationType = null;

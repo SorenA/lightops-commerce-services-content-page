@@ -17,9 +17,9 @@ Provides gRPC services for integrations into other services.
 
 Protobuf service definitions located at [SorenA/lightops-commerce-proto](https://github.com/SorenA/lightops-commerce-proto).
 
-Content Page is implemented in `Domain.Services.Grpc.ContentPageGrpcService`.
+Content Page is implemented in `Domain.GrpcServices.ContentPageGrpcService`.
 
-Health is implemented in `Domain.Services.Grpc.HealthGrpcService`.
+Health is implemented in `Domain.GrpcServices.HealthGrpcService`.
 
 ### Health-check
 
@@ -29,7 +29,7 @@ Available services are as follows
 
 ```bash
 service = '' - System as a whole
-service = 'lightops.service.ContentPageProtoService' - ContentPage
+service = 'lightops.service.ContentPageService' - ContentPage
 ```
 
 For embedding a gRPC client for use with Kubernetes, see [grpc-ecosystem/grpc-health-probe](https://github.com/grpc-ecosystem/grpc-health-probe)
@@ -44,7 +44,6 @@ LightOps packages available on NuGet:
 
 - `LightOps.DependencyInjection`
 - `LightOps.CQRS`
-- `LightOps.Mapping`
 
 ## Using the service component
 
@@ -54,7 +53,6 @@ Register during startup through the `AddContentPageService(options)` extension o
 services.AddLightOpsDependencyInjection(root =>
 {
     root
-        .AddMapping()
         .AddCqrs()
         .AddContentPageService(service =>
         {
@@ -78,9 +76,11 @@ app.UseEndpoints(endpoints =>
 });
 ```
 
+The gRPC services use `ICommandDispatcher` & `IQueryDispatcher` from the `LightOps.CQRS` package to dispatch commands and queries, see configuration bellow.
+
 ### Configuration options
 
-A component backend is required, defining the query handlers tied to a data-source, see **Query handlers** section bellow for more.
+A component backend is required, implementing the command & query handlers tied to a data-source, see configuration overridables bellow.
 
 A custom backend, or one of the following standard backends can be used:
 
@@ -93,16 +93,6 @@ Using the `IContentPageServiceComponent` configuration, the following can be ove
 ```csharp
 public interface IContentPageServiceComponent
 {
-    #region Services
-    IContentPageServiceComponent OverrideHealthService<T>() where T : IHealthService;
-    IContentPageServiceComponent OverrideContentPageService<T>() where T : IContentPageService;
-    #endregion Services
-
-    #region Mappers
-    IContentPageServiceComponent OverrideContentPageProtoMapper<T>() where T : IMapper<IContentPage, ContentPageProto>;
-    IContentPageServiceComponent OverrideImageProtoMapper<T>() where T : IMapper<IImage, ImageProto>;
-    #endregion Mappers
-
     #region Query Handlers
     IContentPageServiceComponent OverrideCheckContentPageHealthQueryHandler<T>() where T : ICheckContentPageHealthQueryHandler;
 
@@ -110,12 +100,14 @@ public interface IContentPageServiceComponent
     IContentPageServiceComponent OverrideFetchContentPagesByIdsQueryHandler<T>() where T : IFetchContentPagesByIdsQueryHandler;
     IContentPageServiceComponent OverrideFetchContentPagesBySearchQueryHandler<T>() where T : IFetchContentPagesBySearchQueryHandler;
     #endregion Query Handlers
+
+    #region Command Handlers
+    IContentPageServiceComponent OverridePersistContentPageCommandHandler<T>() where T : IPersistContentPageCommandHandler;
+    IContentPageServiceComponent OverrideDeleteContentPageCommandHandler<T>() where T : IDeleteContentPageCommandHandler;
+    #endregion Command Handlers
 }
 ```
 
-`IContentPageService` is used by the gRPC services and query the data using the `IQueryDispatcher` from the `LightOps.CQRS` package.
-
-The mappers are used for mapping the internal data structure to the versioned protobuf messages.
 
 ## Backend modules
 

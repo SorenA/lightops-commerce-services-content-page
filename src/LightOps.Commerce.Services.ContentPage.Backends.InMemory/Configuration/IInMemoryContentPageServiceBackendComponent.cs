@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using LightOps.Commerce.Services.ContentPage.Api.Models;
 using LightOps.Commerce.Services.ContentPage.Backends.InMemory.Api.Providers;
 
 namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Configuration
@@ -7,7 +6,7 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Configuration
     public interface IInMemoryContentPageServiceBackendComponent
     {
         #region Entities
-        IInMemoryContentPageServiceBackendComponent UseContentPages(IList<IContentPage> contentPages);
+        IInMemoryContentPageServiceBackendComponent UseContentPages(IList<Proto.Types.ContentPage> contentPages);
         #endregion Entities
 
         #region Providers

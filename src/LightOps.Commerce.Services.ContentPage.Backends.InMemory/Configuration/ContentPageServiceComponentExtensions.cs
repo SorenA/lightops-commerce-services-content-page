@@ -1,4 +1,5 @@
 ﻿using System;
+using LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.CommandHandlers;
 using LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.QueryHandlers;
 using LightOps.Commerce.Services.ContentPage.Configuration;
 using LightOps.DependencyInjection.Configuration;
@@ -19,6 +20,11 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Configuration
 
             // Attach to root component
             rootComponent.AttachComponent(component);
+
+            // Override command handlers
+            serviceComponent
+                .OverridePersistContentPageCommandHandler<PersistContentPageCommandHandler>()
+                .OverrideDeleteContentPageCommandHandler<DeleteContentPageCommandHandler>();
 
             // Override query handlers
             serviceComponent

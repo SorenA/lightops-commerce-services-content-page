@@ -3,23 +3,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using Grpc.Core;
 using LightOps.Commerce.Proto.Grpc.Health;
-using LightOps.Commerce.Services.ContentPage.Api.Services;
+using LightOps.Commerce.Services.ContentPage.Api.Queries;
+using LightOps.CQRS.Api.Services;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 
-namespace LightOps.Commerce.Services.ContentPage.Domain.Services.Grpc
+namespace LightOps.Commerce.Services.ContentPage.Domain.GrpcServices
 {
     public class HealthGrpcService : Health.HealthBase
     {
         private readonly ILogger<HealthGrpcService> _logger;
-        private readonly IHealthService _healthService;
+        private readonly IQueryDispatcher _queryDispatcher;
 
         public HealthGrpcService(
             ILogger<HealthGrpcService> logger,
-            IHealthService healthService)
+            IQueryDispatcher queryDispatcher)
         {
             _logger = logger;
-            _healthService = healthService;
+            _queryDispatcher = queryDispatcher;
         }
 
         public override async Task<HealthCheckResponse> Check(HealthCheckRequest request, ServerCallContext context)
@@ -27,11 +28,12 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Services.Grpc
             if (string.IsNullOrEmpty(request.Service))
             {
                 // Perform overall health-check
-                var statusMap = new Dictionary<string, HealthCheckResponse.Types.ServingStatus>();
-
-                // Check all services
-                statusMap.Add("lightops.service.ContentPageProtoService", await GetContentPageServiceStatusAsync());
-
+                var statusMap = new Dictionary<string, HealthCheckResponse.Types.ServingStatus>
+                {
+                    // Check all services
+                    { "lightops.service.ContentPageService", await GetContentPageServiceStatusAsync() },
+                };
+                
                 return new HealthCheckResponse
                 {
                     Status = statusMap.All(x => x.Value == HealthCheckResponse.Types.ServingStatus.Serving)
@@ -43,7 +45,7 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Services.Grpc
             var servingStatus = HealthCheckResponse.Types.ServingStatus.Unknown;
             switch (request.Service)
             {
-                case "lightops.service.ContentPageProtoService":
+                case "lightops.service.ContentPageService":
                     servingStatus = await GetContentPageServiceStatusAsync();
                     break;
                 default:
@@ -58,7 +60,9 @@ namespace LightOps.Commerce.Services.ContentPage.Domain.Services.Grpc
 
         private async Task<HealthCheckResponse.Types.ServingStatus> GetContentPageServiceStatusAsync()
         {
-            return await _healthService.CheckContentPage() == HealthStatus.Healthy
+            var healthStatus = await _queryDispatcher.DispatchAsync<CheckContentPageHealthQuery, HealthStatus>(new CheckContentPageHealthQuery());
+
+            return healthStatus == HealthStatus.Healthy
                 ? HealthCheckResponse.Types.ServingStatus.Serving
                 : HealthCheckResponse.Types.ServingStatus.NotServing;
         }
