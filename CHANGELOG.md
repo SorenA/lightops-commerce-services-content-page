@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Breaking** - Migrated to .NET 5
 - **Breaking** - Updated refactored and renamed service definition
 - **Breaking** - Refactored health check query
-- Use Protobuf generated models and services directly instead of mapping and re-implementing services, cuts code required by a lot.
+- Use Protobuf generated models and services directly instead of mapping and re-implementing services, cuts code required by a lot
 
 ### Removed
 

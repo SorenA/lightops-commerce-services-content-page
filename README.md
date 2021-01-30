@@ -108,7 +108,6 @@ public interface IContentPageServiceComponent
 }
 ```
 
-
 ## Backend modules
 
 ### In-Memory
@@ -120,7 +119,7 @@ root.AddContentPageService(service =>
 {
     service.UseInMemoryBackend(root, backend =>
     {
-        var contentPages = new List<IContentPage>();
+        var contentPages = new List<ContentPage>();
         // ...
 
         backend.UseContentPages(contentPages);
