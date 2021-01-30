@@ -9,7 +9,7 @@ RUN GRPC_HEALTH_PROBE_VERSION=v0.3.1 && \
     curl -s https://github.com/grpc-ecosystem/grpc-health-probe/releases/download/${GRPC_HEALTH_PROBE_VERSION}/grpc_health_probe-linux-amd64 -o /bin/grpc_health_probe && \
     chmod +x /bin/grpc_health_probe
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["samples/Sample.ContentPageService/Sample.ContentPageService.csproj", "samples/Sample.ContentPageService/"]
 RUN dotnet restore "samples/Sample.ContentPageService/Sample.ContentPageService.csproj"
