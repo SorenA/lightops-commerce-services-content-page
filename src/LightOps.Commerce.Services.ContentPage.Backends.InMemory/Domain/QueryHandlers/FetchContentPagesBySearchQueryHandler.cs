@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LightOps.Commerce.Proto.Services.ContentPage;
+using LightOps.Commerce.Proto.Types;
 using LightOps.Commerce.Services.ContentPage.Api.Queries;
 using LightOps.Commerce.Services.ContentPage.Api.QueryHandlers;
 using LightOps.Commerce.Services.ContentPage.Api.QueryResults;
@@ -28,22 +28,27 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.QueryH
             // Filter out un-searchable
             inMemoryQuery = inMemoryQuery.Where(x => x.IsSearchable);
 
-            // Sort underlying list
+            // Use default sorting order
+            inMemoryQuery = inMemoryQuery.OrderBy(x => x.SortOrder);
+
+            // Sort underlying list if sorting key is specified
             switch (query.SortKey)
             {
-                case GetBySearchRequest.Types.SortKey.Title:
+                case ContentPageSortKey.Title:
                     // Only possible when using a language code
                     if (!string.IsNullOrEmpty(query.LanguageCode))
                     {
                         inMemoryQuery = inMemoryQuery.OrderBy(x => x.Titles
-                            .FirstOrDefault(l => l.LanguageCode == query.LanguageCode));
+                            .Where(l => l.LanguageCode == query.LanguageCode) // Match language code
+                            .Select(l => l.Value) // Convert to value
+                            .FirstOrDefault());
                     }
                     break;
-                case GetBySearchRequest.Types.SortKey.CreatedAt:
-                    inMemoryQuery = inMemoryQuery.OrderBy(x => x.CreatedAt);
+                case ContentPageSortKey.CreatedAt:
+                    inMemoryQuery = inMemoryQuery.OrderBy(x => x.CreatedAt.ToDateTime());
                     break;
-                case GetBySearchRequest.Types.SortKey.UpdatedAt:
-                    inMemoryQuery = inMemoryQuery.OrderBy(x => x.UpdatedAt);
+                case ContentPageSortKey.UpdatedAt:
+                    inMemoryQuery = inMemoryQuery.OrderBy(x => x.UpdatedAt.ToDateTime());
                     break;
             }
 

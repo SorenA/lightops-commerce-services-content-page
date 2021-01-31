@@ -1,4 +1,4 @@
-﻿using LightOps.Commerce.Proto.Services.ContentPage;
+﻿using LightOps.Commerce.Proto.Types;
 using LightOps.CQRS.Api.Queries;
 
 namespace LightOps.Commerce.Services.ContentPage.Api.Queries
@@ -34,7 +34,7 @@ namespace LightOps.Commerce.Services.ContentPage.Api.Queries
         /// <summary>
         /// Sort the underlying list by the given key
         /// </summary>
-        public GetBySearchRequest.Types.SortKey SortKey { get; set; }
+        public ContentPageSortKey SortKey { get; set; }
 
         /// <summary>
         /// Whether to reverse the order of the underlying list

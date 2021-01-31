@@ -116,17 +116,10 @@ message GetBySearchRequest {
   google.protobuf.Int32Value page_size = 5;
 
   // Sort the underlying list by the given key
-  SortKey sort_key = 6;
+  lightops.type.ContentPageSortKey sort_key = 6;
 
   // Whether to reverse the order of the underlying list
   google.protobuf.BoolValue reverse = 7;
-
-  enum SortKey {
-    DEFAULT = 0;
-    TITLE = 1;
-    CREATED_AT = 2;
-    UPDATED_AT = 3;
-  }
 }
 
 message GetBySearchResponse {

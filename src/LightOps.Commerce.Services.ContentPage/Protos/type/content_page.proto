@@ -41,4 +41,14 @@ message ContentPage {
 
   // Whether or not the content page is searchable
   bool is_searchable = 11;
+
+  // The sort order of the content page when no sorting key is specified
+  int64 sort_order = 12;
+}
+
+enum ContentPageSortKey {
+  DEFAULT = 0;
+  TITLE = 1;
+  CREATED_AT = 2;
+  UPDATED_AT = 3;
 }
