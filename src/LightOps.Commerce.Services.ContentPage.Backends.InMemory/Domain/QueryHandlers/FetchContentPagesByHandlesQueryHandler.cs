@@ -18,9 +18,13 @@ namespace LightOps.Commerce.Services.ContentPage.Backends.InMemory.Domain.QueryH
 
         public Task<IList<Proto.Types.ContentPage>> HandleAsync(FetchContentPagesByHandlesQuery query)
         {
+            // Match any localized handle
             var contentPages = _inMemoryContentPageProvider
                 .ContentPages?
-                .Where(c => query.Handles.Contains(c.Handle))
+                .Where(c => c.Handles
+                    .Select(ls => ls.Value)
+                    .Intersect(query.Handles)
+                    .Any())
                 .ToList();
 
             return Task.FromResult<IList<Proto.Types.ContentPage>>(contentPages ?? new List<Proto.Types.ContentPage>());
